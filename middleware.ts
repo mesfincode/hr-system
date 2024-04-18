@@ -1,40 +1,42 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { apiAuthPrefix, authRoutes, publicRoutes } from './route';
  
 // This function can be marked `async` if using `await` inside
 export function middleware(req: NextRequest) {
     const nextUrl = req.url;
     const headers = req.headers;
     const cookies = req.cookies;
-    console.log(nextUrl,"url---")
-    // console.log("ROUTE: ", req.nextUrl.pathname);
+  
    const pathname = req.nextUrl.pathname;
    const host =req.nextUrl.hostname
    const origin =req.nextUrl.origin
-   console.log(pathname)
-   console.log(host)
-   console.log(origin)
-   console.log(cookies)
-   console.log(headers)
+   console.log("ROUTE PATH: ",pathname)
+
+//    console.log(pathname)
+//    console.log(host)
+//    console.log(origin)
+//    console.log(cookies)
+//    console.log(headers)
 
     // const isLoggedIn = !!req.auth;
-    // const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix)
+    const isApiAuthRoute = pathname.startsWith(apiAuthPrefix)
 
-    // const isPublicRoute = publicRoutes.includes(nextUrl);
-    // const isAuthRoute = authRoutes.includes(nextUrl);
+    const isPublicRoute = publicRoutes.includes(pathname);
+    const isAuthRoute = authRoutes.includes(pathname);
 
     // if(isApiAuthRoute){
     //     return null;
     // }
-    // if(isAuthRoute){
-    //     if(isLoggedIn){
-    //         return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT,nextUrl));
-    //     }
-    //     return null;
-    // }
-    // if(!isLoggedIn && !isPublicRoute){
-    //     return Response.redirect(new URL("/auth/login",nextUrl))
-    // }
+    if(isPublicRoute){
+        console.log("ROUTE PUBLIC")
+        // return null
+    }
+    if(isApiAuthRoute){
+        console.log("ROUTE AUTH")
+        // return null;
+    }
+  
     return null;
 //   return NextResponse.redirect(new URL('/home', req.url))
 }

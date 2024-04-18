@@ -8,7 +8,6 @@ import { LoginValidator } from "@/validators/validator";
 import * as jose from 'jose'
 
 export async function POST(request: Request) {
-  // Read data off req body
   const body = await request.json()
   const validatedFields = LoginValidator.safeParse(body);
 

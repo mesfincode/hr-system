@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     if(!validatedFields.success){
         return Response.json({error:"Envalid data"},{status:500})
     }
-    const { email, password , username} = body
+    const { email, password , name} = body
 
     try {
         const user = await db.user.findUnique({ where: { email } });
@@ -23,7 +23,7 @@ export async function POST(request: Request) {
             const hashedPassword = await bcrypt.hash(password, 10);
           const user =  await db.user.create({
                 data: {
-                    email, password: hashedPassword,name:username
+                    email, password: hashedPassword,name
                 }
             })
             const filteredUser = filterUserData(user);

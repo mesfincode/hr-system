@@ -4,12 +4,16 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { User } from "@prisma/client";
+import { RegsiterValidator } from "@/validators/validator";
 export async function POST(request: Request) {
     // Read data off req body
     const body = await request.json()
+    const validatedFields = RegsiterValidator.safeParse(body);
 
-    const { email, password } = body
-    console.log(email, password);
+    if(!validatedFields.success){
+        return Response.json({error:"Envalid data"},{status:500})
+    }
+    const { email, password , username} = body
 
     try {
         const user = await db.user.findUnique({ where: { email } });
@@ -19,7 +23,7 @@ export async function POST(request: Request) {
             const hashedPassword = await bcrypt.hash(password, 10);
           const user =  await db.user.create({
                 data: {
-                    email, password: hashedPassword
+                    email, password: hashedPassword,name:username
                 }
             })
             const filteredUser = filterUserData(user);

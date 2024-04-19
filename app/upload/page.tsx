@@ -16,7 +16,9 @@ export default function Upload(){
                 method:'POST',
                 body:data
             })
-
+            console.log(res.json().then((data)=>{
+                console.log(data);
+            }))
             if(!res.ok) throw new Error(await res.text())
             
         }catch(e:any){

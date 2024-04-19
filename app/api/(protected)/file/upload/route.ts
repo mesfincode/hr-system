@@ -24,12 +24,12 @@ export async function POST(request: Request) {
 
     const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
     const { name, ext } = parse(file.name);
-
+const fileName = `${name}-${uniqueSuffix}${ext}`
     // const filename = await rename(file.name, `${name}-${uniqueSuffix}${ext}`)
-    const path = join(currentDirectory, 'image',`${name}-${uniqueSuffix}${ext}`);
+    const path = join(currentDirectory, 'image', fileName);
     await writeFile(path,buffer);
     console.log(`open ${path} to see the uploaded file`)
   
-    return NextResponse.json({success:true});
+    return Response.json({success:"File Uploaded",data:fileName},{status:200})
 
 }

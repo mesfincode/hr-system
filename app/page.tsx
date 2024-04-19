@@ -8,7 +8,7 @@ export default function Home() {
         <h1 className="text-8xl font-bold">Welcome to HR system</h1>
          <Link href={"/auth/login"}>
            <Button size="lg">
-              Login
+              Home
            </Button>
         </Link>
        </div>

@@ -35,6 +35,11 @@ model Account {
 enum UserRole{
   ADMIN
   USER
+  EMPLOYEE
+  BRANCH_MANAGER
+  MANAGER
+  CLIENT
+
 }
 
 model User {

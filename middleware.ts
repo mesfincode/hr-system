@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { apiAuthPrefix, authRoutes, publicRoutes } from './route';
+import { apiAuthPrefix, authRoutes, dashboardAuthPrefix, fileRoutePrefix, protectedRoute, publicRoutes } from './route';
+import { verifyJwt } from './lib/jwt-util';
  
 // This function can be marked `async` if using `await` inside
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
     const nextUrl = req.url;
     const headers = req.headers;
     const cookies = req.cookies;
@@ -13,18 +14,23 @@ export function middleware(req: NextRequest) {
    const origin =req.nextUrl.origin
    console.log("ROUTE PATH: ",pathname)
 
-//    console.log(pathname)
-//    console.log(host)
-//    console.log(origin)
-//    console.log(cookies)
-//    console.log(headers)
-
-    // const isLoggedIn = !!req.auth;
-    const isApiAuthRoute = pathname.startsWith(apiAuthPrefix)
-
-    const isPublicRoute = publicRoutes.includes(pathname);
     const isAuthRoute = authRoutes.includes(pathname);
 
+    const isPublicRoute = publicRoutes.includes(pathname);
+    // const isProtectedRoute = protectedRoute.includes(pathname);
+    const isDashboardRoute = pathname.startsWith(dashboardAuthPrefix);
+    const isFileRoute = pathname.startsWith(fileRoutePrefix);
+    const token = cookies.get('session_token')?.value || "";
+
+    const isValidToken = await verifyJwt(token);
+    if(isDashboardRoute || isFileRoute){
+     
+            if(!isValidToken){
+                return Response.redirect(new URL("/auth/login",nextUrl))
+
+            }
+      
+    }
     // if(isApiAuthRoute){
     //     return null;
     // }
@@ -32,8 +38,11 @@ export function middleware(req: NextRequest) {
         console.log("ROUTE PUBLIC")
         // return null
     }
-    if(isApiAuthRoute){
-        console.log("ROUTE AUTH")
+    if(isAuthRoute){
+       if(isValidToken){
+        return Response.redirect(new URL("/dashboard",nextUrl))
+
+       }
         // return null;
     }
   

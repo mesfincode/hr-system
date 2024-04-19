@@ -11,10 +11,13 @@ import { FormError } from '../form-error';
 import { FormSuccess } from '../form-success';
 // import { login } from '@/actions/login';
 import { useState, useTransition } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { redirect, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { LoginValidator } from '@/validators/validator';
+import { useRouter } from "next/navigation";
+
 const LoginForm = () => {
+    const router = useRouter();
 
   const searchParams = useSearchParams() ;
   const urlErr = searchParams!.get("error") =="OAuthAccountNotLinked" ?"Email already in use by a different provider":"";
@@ -37,6 +40,7 @@ const LoginForm = () => {
     setError("");
     setSuccess("");
     startTransition(()=>{
+        registerUser(values);
     //   login(values).then((data)=>{
     //    if(data?.error){
     //     // form.reset();
@@ -54,6 +58,38 @@ const LoginForm = () => {
     })
     
    }
+   const registerUser = async (values:any) => {
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      });
+      console.log(response);
+  
+      if (response.ok) {
+        // Handle success
+        const data = await response.json();
+        console.log(data);
+        localStorage.setItem("data",JSON.stringify(data));
+        // data.header 
+        setSuccess(data.success)
+        router.push("/dashboard");
+      } else {
+        // Handle error
+        const errorData = await response.json();
+        console.log(errorData.error);
+        setError(errorData.error)
+
+      }
+    } catch (error) {
+      // Handle network or other errors
+      setError("Something went wrong")
+      console.error(error);
+    }
+  };
   return (
     <CardWrapper
     headerLabel="Welcome Back"

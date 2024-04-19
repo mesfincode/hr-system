@@ -1,3 +1,10 @@
+
+export const protectedRoute = [
+    "/user",
+
+  
+]
+
 /**
  * An array of routes that are accessible to the public
  * These routes do not require authentication 
@@ -30,6 +37,12 @@ export const authRoutes = [
  * @type {string}
  */
 export const apiAuthPrefix = "/api/auth"
+
+export const fileRoutePrefix = "/api/file"
+
+
+export const dashboardAuthPrefix = "/dashboard"
+
 
 /**
  * The default redirect path after logged in

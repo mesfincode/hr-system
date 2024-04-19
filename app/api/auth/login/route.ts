@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 import { User } from "@prisma/client";
 import { LoginValidator } from "@/validators/validator";
 import * as jose from 'jose'
+import { getJwtToken } from "@/lib/jwt-util";
 
 export async function POST(request: Request) {
   const body = await request.json()
@@ -24,30 +25,23 @@ export async function POST(request: Request) {
         password, user.password || ""
       )
       if (passwordsMatch) {
-        const secret = new TextEncoder().encode(
-          process.env.JWT_SECRET,
-        )
-        const alg = 'HS256'
-        const jwt = await new jose.SignJWT({ 'urn:example:claim': true })
-          .setProtectedHeader({ alg })
-          .setIssuedAt()
-          .setIssuer('urn:example:issuer')
-          .setAudience('urn:example:audience')
-          .setSubject(user.id)
-          .setExpirationTime('2h')
-          .sign(secret)
-
-        console.log(jwt)
+        const session_token = await getJwtToken(user.id);
+       if(session_token){
         const responseHeaders = new Headers({
           'Content-Type': 'application/json',
-          'Authorization': jwt
+          'Authorization': session_token,
+          'Set-Cookie': `session_token=${session_token}; Path=/; Max-Age=3600`, // Add your cookie details here
           // Add other headers here (e.g., 'Authorization': 'Bearer your_token')
         });
 
-        return new Response(JSON.stringify({ success: "Your account exists", data: filterUserData(user) }), {
+        return new Response(JSON.stringify({ success: "Your account exists", data: {...filterUserData(user),session_token} }), {
           status: 200,
           headers: responseHeaders,
         });
+       }else{
+        return Response.json({ error: "Somwthing went wrong try again" }, { status: 404 })
+
+       }
 
         // return Response.json({success:"Your account exists",data:filterUserData(user)},{status:200})
 

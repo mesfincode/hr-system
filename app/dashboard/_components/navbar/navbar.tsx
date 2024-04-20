@@ -9,6 +9,7 @@ export const Navbar = () => {
     const pathname = usePathname();
     return (
         <div className="bg-secondary w-full flex justify-between items-center  rounded-xl  shadow-sm px-16 py-4">
+              <UserButton />
             <div className="flex gap-x-2">
                 <Button
 
@@ -49,7 +50,7 @@ variant={pathname === "/dashboard/super-admin" ? "default" : "outline"} asChild>
 
            
             </div>
-            <UserButton />
+          
         </div>
     )
 }

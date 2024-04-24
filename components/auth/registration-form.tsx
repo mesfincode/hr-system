@@ -10,6 +10,7 @@ import { useState, useTransition } from "react"
 import { RegsiterValidator } from "@/validators/validator"
 import { FormError } from "../form-error"
 import { FormSuccess } from "../form-success"
+import router from "next/router"
 // import { register } from "@/actions/login"
 // import { FormError } from "../form-error"
 // import { FormSuccess } from "../form-success"
@@ -50,7 +51,8 @@ export function RegistrationForm() {
             // Handle success
             const data = await response.json();
             console.log(data);
-            setSuccess(data.success)
+            setSuccess(data.success);
+            router.push("/components/auth/login-form");
           } else {
             // Handle error
             const errorData = await response.json();
@@ -140,7 +142,7 @@ export function RegistrationForm() {
                     <FormSuccess message={success} />
                     <Button type='submit' className='w-full'
                     >
-                        Login
+                        Signup
                     </Button>
                 </form>
             </Form>

@@ -11,6 +11,11 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Header from '@/components/auth/header'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Sex } from '@prisma/client'
+import { createEmployee } from '@/actions/employee'
+import { FormError } from '@/components/form-error'
+import { FormSuccess } from '@/components/form-success'
 const CreateEmployee = () => {
     const [error, setError] = useState<string | undefined>();
     const [success, setSuccess] = useState<string | undefined>();
@@ -21,48 +26,48 @@ const CreateEmployee = () => {
         defaultValues: {
           firstName: "",
           lastName: "",
-          age: "",
+          age: 0,
           sex: "",
           bankAccount: "",
           education: "",
-          profileImage: "",
+          // profileImage: "",
           email: ""
           //   code:""
         }
       })
     
       const onSubmit = (values: z.infer<typeof EmployeeFormValidator>) => {
-        console.log(values)
         setError("");
         setSuccess("");
         startTransition(() => {
-          console.log(values)
           // registerUser(values);
-          //   login(values).then((data)=>{
-          //    if(data?.error){
-          //     // form.reset();
-          //     setError(data.error)
-          //    }
-          //    if(data?.success){
-          //     // form.reset();
-          //     setSuccess(data.success)
-          //    }
-          //    if(data?.twoFactor){
-          //     // form.reset();
-          //     setShowTwoFactor(true)
-          //    }
-          //   }).catch(()=>setError("Something went wrong"))
+            createEmployee(values).then((data)=>{
+              console.log(data)
+             if(data?.error){
+              // form.reset();
+              setError(data.error)
+             }
+             if(data?.success){
+              // form.reset();
+              setSuccess(data.success)
+             }
+           
+            }).catch(()=>setError("Something went wrong"))
         })
     
       }
   return (
     <div className='flex justify-center items-center py-8'>
         <Card className="w-[500px] shadow-md">
-        <CardHeader>
+        <CardHeader className='flex justify-center items-center'>
            {/* <Header label="Create Employee"/> */}
-           <h1>Create Employee</h1>
+           <h1 className='font-bold uppercase'>Create Employee</h1>
            </CardHeader>
            <CardContent>
+          {/* <div className='flex justify-center items-center'>
+          <input className=''  type="file" name="file" />
+          </div> */}
+
            <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}
                   className='space-y-6'
@@ -155,9 +160,9 @@ const CreateEmployee = () => {
                         <FormControl>
                           <Input {...field}
                             placeholder='Age'
-                            type='text'
+                            type='number'
                             disabled={isPending}
-
+                            {...form.register('age', { valueAsNumber: true })}
                           >
 
                           </Input>
@@ -169,26 +174,35 @@ const CreateEmployee = () => {
 
                     </FormField>
                     <FormField
-                      control={form.control}
-                      name='sex'
-                      render={({ field }) => (<FormItem>
-                        <FormLabel>Sex</FormLabel>
-                        <FormControl>
-                          <Input {...field}
-                            placeholder='Sex'
-                            type='text'
-                            disabled={isPending}
+                    
+                control={form.control}
+                name="sex"
+                
+                render={({ field }) => (<FormItem>
+          
+                    <FormLabel>Sex</FormLabel>
+                  <Select disabled={isPending}
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}   >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value={Sex.MALE} >
+                        Male
+                      </SelectItem>
+                      <SelectItem value={Sex.FEMALE} >
+                        Female
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
 
-                          >
+                </FormItem>)}
 
-                          </Input>
-                        </FormControl>
-
-                        <FormMessage />
-                      </FormItem>)}
-                    >
-
-                    </FormField>
+              />
                   </div>
                     <FormField
                       control={form.control}
@@ -211,20 +225,65 @@ const CreateEmployee = () => {
                     >
 
                     </FormField>
-                    
+                    <FormField
+                      control={form.control}
+                      name='bankAccount'
+                      render={({ field }) => (<FormItem>
+                        <FormLabel>bankAccount</FormLabel>
+                        <FormControl>
+                          <Input {...field}
+                            placeholder=' Education'
+                            type='text'
+                            disabled={isPending}
+
+                          >
+
+                          </Input>
+                        </FormControl>
+
+                        <FormMessage />
+                      </FormItem>)}
+                    >
+
+                    </FormField>
+                    {/* <FormField
+                      control={form.control}
+                      name='profileImage'
+                      render={({ field }) => (<FormItem>
+                        <FormLabel>profileImage</FormLabel>
+                        <FormControl>
+                          <Input {...field}
+                            placeholder=' profileImage'
+                            type='text'
+                            disabled={isPending}
+
+                          >
+
+                          </Input>
+                        </FormControl>
+
+                        <FormMessage />
+                      </FormItem>)}
+                    >
+
+                    </FormField> */}
                     <FormField
                       control={form.control}
                       name='email'
                       render={({ field }) => (<FormItem>
                         <FormLabel>Email</FormLabel>
+                        <span className="optional-indicator">(Optional)</span>
+
                         <FormControl>
                           <Input {...field}
                             disabled={isPending}
-                            placeholder='john.doe@example.com'
+                            placeholder='example@gmail.com'
                             type='email'
+                           
                           >
 
                           </Input>
+                          
                         </FormControl>
                         <FormMessage />
                       </FormItem>)}
@@ -236,8 +295,8 @@ const CreateEmployee = () => {
                     {/* </>)
                  } */}
                   </div>
-                  {/* <FormError message={error || urlErr}/> */}
-                  {/* <FormSuccess message={success}/> */}
+                  <FormError message={error}/>
+                  <FormSuccess message={success}/>
 
                   <Button type='submit' className='w-full' disabled={isPending}
                   >

@@ -8,49 +8,15 @@ import { usePathname } from "next/navigation";
 export const Navbar = () => {
     const pathname = usePathname();
     return (
-        <div className="bg-secondary w-full flex justify-between items-center  rounded-xl  shadow-sm px-16 py-4">
-              <UserButton />
-            <div className="flex gap-x-2">
-                <Button
-
-                    variant={pathname === "/dashboard/employee" ? "default" : "outline"} asChild>
-                    <Link href="/dashboard/employee">
-                        Employee
-                    </Link>
-                </Button>
-
-                <Button
-
-                    variant={pathname === "/dashboard/main-branch" ? "default" : "outline"} asChild>
-                    <Link href="/dashboard/main-branch">
-                        Main Branch
-                    </Link>
-                </Button>
-                <Button
-
-                    variant={pathname === "/dashboard/branch" ? "default" : "outline"} asChild>
-                    <Link href="/dashboard/branch">
-                        Branch
-                    </Link>
-                </Button>
-                <Button
-
-                    variant={pathname === "/dashboard/client" ? "default" : "outline"} asChild>
-                    <Link href="/dashboard/client">
-                        Client
-                    </Link>
-                </Button>
-                <Button
-
-variant={pathname === "/dashboard/super-admin" ? "default" : "outline"} asChild>
-<Link href="/dashboard/super-admin">
-    Super Admin
-</Link>
-</Button>
-
-           
+        <div className="fixed top-0 max-lg:w-full lg:left-[350px] right-0 bg-slate-100 h-16 justify-center items-center">
+            <div className="flex w-full h-full justify-end px-8 items-center">
+            <UserButton />
+            {/* <div><input type="text" /></div> */}
             </div>
-          
+
+            
+           
+            
         </div>
     )
 }

@@ -11,35 +11,15 @@ import { DataTableRowActions } from "./data-table-row-actions";
 import moment from "moment";
 
 export const columns: ColumnDef<Employee>[] = [
-  /*   {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-        className="translate-y-[2px]"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-        className="translate-y-[2px]"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  }, */
+ 
   {
-    accessorKey: "createdAt",
+    accessorKey: "id",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Date created" />
+      <DataTableColumnHeader column={column} title="Id " />
     ),
     cell: ({ row }) => (
       <div className="w-[80px]">
-        {moment(row.getValue("createdAt")).format("YY-MM-DD")}
+        {row.getValue("id")}
       </div>
     ),
     enableSorting: false,
@@ -57,6 +37,19 @@ export const columns: ColumnDef<Employee>[] = [
     enableSorting: true,
     enableHiding: true,
   },
+
+  {
+    accessorKey: "lastName",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Last Name" />
+    ),
+
+    cell: ({ row }) => <div className="">{row.getValue("lastName")}</div>,
+    enableSorting: true,
+    enableHiding: true,
+  },
+
+ 
   
   {
     accessorKey: "email",
@@ -69,35 +62,75 @@ export const columns: ColumnDef<Employee>[] = [
     enableHiding: true,
   },
   {
-    accessorKey: "phone",
+    accessorKey: "age",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Mobile" />
+      <DataTableColumnHeader column={column} title="Age" />
     ),
 
-    cell: ({ row }) => <div className="">{row.getValue("phone")}</div>,
+    cell: ({ row }) => <div className="">{row.getValue("age")}</div>,
     enableSorting: true,
     enableHiding: true,
   },
   {
-    accessorKey: "position",
+    accessorKey: "sex",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Position" />
+      <DataTableColumnHeader column={column} title="Sex" />
     ),
 
-    cell: ({ row }) => <div className="">{row.getValue("position")}</div>,
+    cell: ({ row }) => <div className="">{row.getValue("sex")}</div>,
     enableSorting: true,
     enableHiding: true,
   },
   {
-    accessorKey: "salary",
+    accessorKey: "bankAccount",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Salary" />
+      <DataTableColumnHeader column={column} title="Bank Account" />
     ),
 
-    cell: ({ row }) => <div className="">{row.getValue("salary")}</div>,
+    cell: ({ row }) => <div className="">{row.getValue("bankAccount")}</div>,
     enableSorting: true,
     enableHiding: true,
   },
+  {
+    accessorKey: "education",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Education" />
+    ),
+
+    cell: ({ row }) => <div className="">{row.getValue("education")}</div>,
+    enableSorting: true,
+    enableHiding: true,
+  },
+  // {
+  //   accessorKey: "phone",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Mobile" />
+  //   ),
+
+  //   cell: ({ row }) => <div className="">{row.getValue("phone")}</div>,
+  //   enableSorting: true,
+  //   enableHiding: true,
+  // },
+  // {
+  //   accessorKey: "position",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Position" />
+  //   ),
+
+  //   cell: ({ row }) => <div className="">{row.getValue("position")}</div>,
+  //   enableSorting: true,
+  //   enableHiding: true,
+  // },
+  // {
+  //   accessorKey: "salary",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Salary" />
+  //   ),
+
+  //   cell: ({ row }) => <div className="">{row.getValue("salary")}</div>,
+  //   enableSorting: true,
+  //   enableHiding: true,
+  // },
  
   {
     id: "actions",

@@ -4,12 +4,14 @@ import { z } from "zod";
 // IRL, you will have a schema for your data models.
 export const employeeSchema = z.object({
   //TODO: fix all the types and nullable
-  id: z.string(),
+  id: z.number(),
   firstName: z.string().nullable(),
   lastName: z.string(),
   email: z.string().nullable(),
-  phone: z.string().nullable(),
-  position: z.string().nullable()
+  sex: z.string().nullable(),
+  age: z.number().nullable(),
+  bankAccount: z.string().nullable(),
+  education: z.string().nullable(),
 
 });
 

@@ -27,53 +27,15 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import CreateButton from "@/components/create-button";
-const EmployeesView = () => {
-  const [error, setError] = useState<string | undefined>();
-  const [success, setSuccess] = useState<string | undefined>();
-  const [isPending, startTransition] = useTransition();
-
+import { Employee } from "@prisma/client";
+const EmployeesView = (employee:any) => {
+  console.log(employee)
+ 
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
+ 
+ 
 
-  const form = useForm<z.infer<typeof EmployeeFormValidator>>({
-    resolver: zodResolver(EmployeeFormValidator),
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      age: "",
-      sex: "",
-      bankAccount: "",
-      education: "",
-      profileImage: "",
-      email: ""
-      //   code:""
-    }
-  })
-
-  const onSubmit = (values: z.infer<typeof EmployeeFormValidator>) => {
-    console.log(values)
-    setError("");
-    setSuccess("");
-    startTransition(() => {
-      console.log(values)
-      // registerUser(values);
-      //   login(values).then((data)=>{
-      //    if(data?.error){
-      //     // form.reset();
-      //     setError(data.error)
-      //    }
-      //    if(data?.success){
-      //     // form.reset();
-      //     setSuccess(data.success)
-      //    }
-      //    if(data?.twoFactor){
-      //     // form.reset();
-      //     setShowTwoFactor(true)
-      //    }
-      //   }).catch(()=>setError("Something went wrong"))
-    })
-
-  }
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -106,259 +68,38 @@ const EmployeesView = () => {
   };
   const data = [
     {
-      id: 'f73bd175-94fd-46c2-8d60-7107baa4da88',
-      createdBy: 'clvayir3k0000homacajw1bl1',
-      updatedBy: 'clvayir3k0000homacajw1bl1',
+      id: 1,
       firstName: 'mesfin',
       lastName: 'girma',
-      email: 'mesfingirmatwo@gmail.com',
-      phone: '+251943766122',
-      role: 'Employee',
-      position: 'devleoper',
-      salary: 4000,
-      onBoarding: "2024-04-03T21:00:00.000Z",
-      createdAt: "2024-04-22T12:57:33.018Z",
-      updatedAt: "2024-04-22T12:57:33.018Z",
-      IBAN: 'aaaaaaa',
-      photo: null,
-      taxid: null,
-      address: 'Addis Ababa, Bole',
-      insurance: 'aaaaaa',
-      assigned_to: null,
-      teamsId: null
+      age: 34,
+      sex: 'MALE',
+      bankAccount: 'jhkjhkjkjj',
+      education: 'weeeee',
+      profileImage: null,
+      email: 'mesfingirmatwo@gmail.com'
     },
     {
-      id: 'f73bd175-94fd-46c2-8d60-7107baa4da88',
-      createdBy: 'clvayir3k0000homacajw1bl1',
-      updatedBy: 'clvayir3k0000homacajw1bl1',
-      firstName: 'mesfin',
-      lastName: 'girma',
-      email: 'mesfingirmatwo@gmail.com',
-      phone: '+251943766122',
-      role: 'Employee',
-      position: 'devleoper',
-      salary: 4000,
-      onBoarding: "2024-04-03T21:00:00.000Z",
-      createdAt: "2024-04-22T12:57:33.018Z",
-      updatedAt: "2024-04-22T12:57:33.018Z",
-      IBAN: 'aaaaaaa',
-      photo: null,
-      taxid: null,
-      address: 'Addis Ababa, Bole',
-      insurance: 'aaaaaa',
-      assigned_to: null,
-      teamsId: null
-    }, {
-      id: 'f73bd175-94fd-46c2-8d60-7107baa4da88',
-      createdBy: 'clvayir3k0000homacajw1bl1',
-      updatedBy: 'clvayir3k0000homacajw1bl1',
-      firstName: 'mesfin',
-      lastName: 'girma',
-      email: 'mesfingirmatwo@gmail.com',
-      phone: '+251943766122',
-      role: 'Employee',
-      position: 'devleoper',
-      salary: 4000,
-      onBoarding: "2024-04-03T21:00:00.000Z",
-      createdAt: "2024-04-22T12:57:33.018Z",
-      updatedAt: "2024-04-22T12:57:33.018Z",
-      IBAN: 'aaaaaaa',
-      photo: null,
-      taxid: null,
-      address: 'Addis Ababa, Bole',
-      insurance: 'aaaaaa',
-      assigned_to: null,
-      teamsId: null
-    }, {
-      id: 'f73bd175-94fd-46c2-8d60-7107baa4da88',
-      createdBy: 'clvayir3k0000homacajw1bl1',
-      updatedBy: 'clvayir3k0000homacajw1bl1',
-      firstName: 'mesfin',
-      lastName: 'girma',
-      email: 'mesfingirmatwo@gmail.com',
-      phone: '+251943766122',
-      role: 'Employee',
-      position: 'devleoper',
-      salary: 4000,
-      onBoarding: "2024-04-03T21:00:00.000Z",
-      createdAt: "2024-04-22T12:57:33.018Z",
-      updatedAt: "2024-04-22T12:57:33.018Z",
-      IBAN: 'aaaaaaa',
-      photo: null,
-      taxid: null,
-      address: 'Addis Ababa, Bole',
-      insurance: 'aaaaaa',
-      assigned_to: null,
-      teamsId: null
-    }, {
-      id: 'f73bd175-94fd-46c2-8d60-7107baa4da88',
-      createdBy: 'clvayir3k0000homacajw1bl1',
-      updatedBy: 'clvayir3k0000homacajw1bl1',
-      firstName: 'mesfin',
-      lastName: 'girma',
-      email: 'mesfingirmatwo@gmail.com',
-      phone: '+251943766122',
-      role: 'Employee',
-      position: 'devleoper',
-      salary: 4000,
-      onBoarding: "2024-04-03T21:00:00.000Z",
-      createdAt: "2024-04-22T12:57:33.018Z",
-      updatedAt: "2024-04-22T12:57:33.018Z",
-      IBAN: 'aaaaaaa',
-      photo: null,
-      taxid: null,
-      address: 'Addis Ababa, Bole',
-      insurance: 'aaaaaa',
-      assigned_to: null,
-      teamsId: null
-    }, {
-      id: 'f73bd175-94fd-46c2-8d60-7107baa4da88',
-      createdBy: 'clvayir3k0000homacajw1bl1',
-      updatedBy: 'clvayir3k0000homacajw1bl1',
-      firstName: 'mesfin',
-      lastName: 'girma',
-      email: 'mesfingirmatwo@gmail.com',
-      phone: '+251943766122',
-      role: 'Employee',
-      position: 'devleoper',
-      salary: 4000,
-      onBoarding: "2024-04-03T21:00:00.000Z",
-      createdAt: "2024-04-22T12:57:33.018Z",
-      updatedAt: "2024-04-22T12:57:33.018Z",
-      IBAN: 'aaaaaaa',
-      photo: null,
-      taxid: null,
-      address: 'Addis Ababa, Bole',
-      insurance: 'aaaaaa',
-      assigned_to: null,
-      teamsId: null
-    }, {
-      id: 'f73bd175-94fd-46c2-8d60-7107baa4da88',
-      createdBy: 'clvayir3k0000homacajw1bl1',
-      updatedBy: 'clvayir3k0000homacajw1bl1',
-      firstName: 'mesfin',
-      lastName: 'girma',
-      email: 'mesfingirmatwo@gmail.com',
-      phone: '+251943766122',
-      role: 'Employee',
-      position: 'devleoper',
-      salary: 4000,
-      onBoarding: "2024-04-03T21:00:00.000Z",
-      createdAt: "2024-04-22T12:57:33.018Z",
-      updatedAt: "2024-04-22T12:57:33.018Z",
-      IBAN: 'aaaaaaa',
-      photo: null,
-      taxid: null,
-      address: 'Addis Ababa, Bole',
-      insurance: 'aaaaaa',
-      assigned_to: null,
-      teamsId: null
-    }, {
-      id: 'f73bd175-94fd-46c2-8d60-7107baa4da88',
-      createdBy: 'clvayir3k0000homacajw1bl1',
-      updatedBy: 'clvayir3k0000homacajw1bl1',
-      firstName: 'mesfin',
-      lastName: 'girma',
-      email: 'mesfingirmatwo@gmail.com',
-      phone: '+251943766122',
-      role: 'Employee',
-      position: 'devleoper',
-      salary: 4000,
-      onBoarding: "2024-04-03T21:00:00.000Z",
-      createdAt: "2024-04-22T12:57:33.018Z",
-      updatedAt: "2024-04-22T12:57:33.018Z",
-      IBAN: 'aaaaaaa',
-      photo: null,
-      taxid: null,
-      address: 'Addis Ababa, Bole',
-      insurance: 'aaaaaa',
-      assigned_to: null,
-      teamsId: null
-    }, {
-      id: 'f73bd175-94fd-46c2-8d60-7107baa4da88',
-      createdBy: 'clvayir3k0000homacajw1bl1',
-      updatedBy: 'clvayir3k0000homacajw1bl1',
-      firstName: 'mesfin',
-      lastName: 'girma',
-      email: 'mesfingirmatwo@gmail.com',
-      phone: '+251943766122',
-      role: 'Employee',
-      position: 'devleoper',
-      salary: 4000,
-      onBoarding: "2024-04-03T21:00:00.000Z",
-      createdAt: "2024-04-22T12:57:33.018Z",
-      updatedAt: "2024-04-22T12:57:33.018Z",
-      IBAN: 'aaaaaaa',
-      photo: null,
-      taxid: null,
-      address: 'Addis Ababa, Bole',
-      insurance: 'aaaaaa',
-      assigned_to: null,
-      teamsId: null
-    }, {
-      id: 'f73bd175-94fd-46c2-8d60-7107baa4da88',
-      createdBy: 'clvayir3k0000homacajw1bl1',
-      updatedBy: 'clvayir3k0000homacajw1bl1',
-      firstName: 'mesfin',
-      lastName: 'girma',
-      email: 'mesfingirmatwo@gmail.com',
-      phone: '+251943766122',
-      role: 'Employee',
-      position: 'devleoper',
-      salary: 4000,
-      onBoarding: "2024-04-03T21:00:00.000Z",
-      createdAt: "2024-04-22T12:57:33.018Z",
-      updatedAt: "2024-04-22T12:57:33.018Z",
-      IBAN: 'aaaaaaa',
-      photo: null,
-      taxid: null,
-      address: 'Addis Ababa, Bole',
-      insurance: 'aaaaaa',
-      assigned_to: null,
-      teamsId: null
-    }, {
-      id: 'f73bd175-94fd-46c2-8d60-7107baa4da88',
-      createdBy: 'clvayir3k0000homacajw1bl1',
-      updatedBy: 'clvayir3k0000homacajw1bl1',
-      firstName: 'mesfin',
-      lastName: 'girma',
-      email: 'mesfingirmatwo@gmail.com',
-      phone: '+251943766122',
-      role: 'Employee',
-      position: 'devleoper',
-      salary: 4000,
-      onBoarding: "2024-04-03T21:00:00.000Z",
-      createdAt: "2024-04-22T12:57:33.018Z",
-      updatedAt: "2024-04-22T12:57:33.018Z",
-      IBAN: 'aaaaaaa',
-      photo: null,
-      taxid: null,
-      address: 'Addis Ababa, Bole',
-      insurance: 'aaaaaa',
-      assigned_to: null,
-      teamsId: null
-    }, {
-      id: 'f73bd175-94fd-46c2-8d60-7107baa4da88',
-      createdBy: 'clvayir3k0000homacajw1bl1',
-      updatedBy: 'clvayir3k0000homacajw1bl1',
-      firstName: 'mesfin',
-      lastName: 'girma',
-      email: 'mesfingirmatwo@gmail.com',
-      phone: '+251943766122',
-      role: 'Employee',
-      position: 'devleoper',
-      salary: 4000,
-      onBoarding: "2024-04-03T21:00:00.000Z",
-      createdAt: "2024-04-22T12:57:33.018Z",
-      updatedAt: "2024-04-22T12:57:33.018Z",
-      IBAN: 'aaaaaaa',
-      photo: null,
-      taxid: null,
-      address: 'Addis Ababa, Bole',
-      insurance: 'aaaaaa',
-      assigned_to: null,
-      teamsId: null
+      id: 2,
+      firstName: 'abebe',
+      lastName: 'kebede',
+      age: 45,
+      sex: 'MALE',
+      bankAccount: '10000000000323',
+      education: '8th',
+      profileImage: null,
+      email: 'abebe@gmail.com'
     },
+    {
+      id: 8,
+      firstName: 'ssss',
+      lastName: 'eeeeee',
+      age: 56,
+      sex: 'MALE',
+      bankAccount: '100000002323',
+      education: 'reeeeeeerrrrr',
+      profileImage: null,
+      email: ''
+    }
   ]
 
 
@@ -375,18 +116,18 @@ const EmployeesView = () => {
             </CardTitle>
             <CardDescription></CardDescription>
           </div>
-          <div className="flex space-x-2">
+          {/* <div className="flex space-x-2">
              <CreateButton/>
-          </div>
+          </div> */}
         </div>
         <Separator />
       </CardHeader>
 
       <CardContent>
-        {!data || data.length === 0 ? (
+        {!employee || employee.length === 0 ? (
           "No assigned employees found"
         ) : (
-          <EmployeeDataTable data={data} columns={columns} />
+          <EmployeeDataTable data={employee['employee']} columns={columns} />
         )}
       </CardContent>
     </Card>

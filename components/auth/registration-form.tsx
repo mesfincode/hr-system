@@ -16,7 +16,7 @@ import Link from "next/link";
 // import { register } from "@/actions/login"
 // import { FormError } from "../form-error"
 // import { FormSuccess } from "../form-success"
-export function RegistrationForm() {
+const RegistrationForm = () => {
     const [showTwoFactor , setShowTwoFactor] = useState(false);
     const [error, setError] = useState<string | undefined>();
     const [success, setSuccess] = useState<string | undefined>();
@@ -160,3 +160,5 @@ export function RegistrationForm() {
     </CardWrapper>
     )
   }
+
+  export default RegistrationForm

@@ -29,6 +29,7 @@ import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
 import { PanelTopClose, PanelTopOpen } from "lucide-react";
 import { getEmployeeWithPagination } from "@/actions/employee";
+import { PaginationOptions } from "@/interfaces/interfaces";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -37,7 +38,12 @@ interface DataTableProps<TData, TValue> {
   pageSize: number;
   totalPages: number;
   totalEmployees: number;
-  fetchNext: ()=> void;
+  updatePageSize: (pageSize:number)=>void;
+  fetchNext: ({page,pageSize}:PaginationOptions)=> void;
+  getFilteredEmp: (  searchCriteria: string ,
+    page: number ,
+    pageSize: number )=> void;
+
 }
 
 export function EmployeeDataTable<TData, TValue>({
@@ -47,15 +53,11 @@ export function EmployeeDataTable<TData, TValue>({
     pageSize,
     totalPages,
     totalEmployees,
-    fetchNext
+    updatePageSize,
+    fetchNext,
+    getFilteredEmp
 }: DataTableProps<TData, TValue>) {
-  useEffect(()=>{
 
-  },[])
-  const getEmploye =async()=>{
-    let pagenationOption = {page:1,pageSize:5}
-    const employeeData = await getEmployeeWithPagination(pagenationOption)
-  }
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
@@ -121,7 +123,7 @@ export function EmployeeDataTable<TData, TValue>({
         </div>
       ) : (
         <>
-          <DataTableToolbar table={table} />
+          <DataTableToolbar fetchNext={fetchNext}  table={table} getFilteredEmp={getFilteredEmp} page={page} pageSize={pageSize}/>
           <div className="rounded-md border">
             <Table>
               <TableHeader>
@@ -172,7 +174,7 @@ export function EmployeeDataTable<TData, TValue>({
               </TableBody>
             </Table>
           </div>
-          <DataTablePagination table={table} fetchNext={fetchNext}  page={page} pageSize={pageSize} totalPages={ totalPages} totalEmployees={totalEmployees}/>
+          <DataTablePagination table={table} fetchNext={fetchNext} updatePageSize={updatePageSize} page={page} pageSize={pageSize} totalPages={ totalPages} totalEmployees={totalEmployees}/>
         </>
       )}
     </div>

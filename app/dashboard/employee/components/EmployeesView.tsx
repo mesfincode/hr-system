@@ -13,7 +13,7 @@ import { Separator } from "@/components/ui/separator";
 import RightViewModal from "@/components/modals/right-view-modal";
 // import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 
-import { columns } from "../table-components/columns";
+// import { columns } from "../table-components/columns";
 import { NewEmployeeForm } from "./NewEmployeeForm";
 import { EmployeeDataTable } from "../table-components/data-table";
 import { useRouter } from "next/navigation";
@@ -28,34 +28,75 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import CreateButton from "@/components/create-button";
 import { Employee } from "@prisma/client";
-import { getEmployeeWithPagination } from "@/actions/employee";
+import { getEmployeeWithPagination, getFilteredEmployee } from "@/actions/employee";
+import { PaginationOptions } from "@/interfaces/interfaces";
+import { columns } from "../table-components/columns";
+
 const EmployeesView = ({employee}:any) => {
  
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
-  const [employeeData,setEmployeeData] = useState({});
-  const {data,  page,
-    pageSize,
-    totalPages,
-    totalEmployees} = employee;
+  const [employeeList, setEmployeeList] = useState<Employee[]>([]);  
+  const [page,setPage] = useState(0);
+  const [pageSize,setPageSize] = useState(2);
+  const [totalPages,setTotalPages] = useState(0);
+  const [totalEmployees,setTotalEmployees] = useState(0)
+
+  // const {data,  page,
+  //   pageSize,
+  //   totalPages,
+  //   totalEmployees} = employee;
   // console.log("Employee--",employee)
 
   useEffect(() => {
     setIsMounted(true);
     getEmploye()
   }, []);
+
  const getEmploye =async()=>{
-  let pagenationOption = {page:1,pageSize:5}
+  let pagenationOption = {page:1,pageSize:pageSize}
   const employeeData = await getEmployeeWithPagination(pagenationOption)
-  setEmployeeData(employeeData)
+  setEmployeeList(employeeData.data)
+  setPage(employeeData.page)
+  setPageSize(employeeData.pageSize)
+  setTotalPages(employeeData.totalPages)
+  setTotalEmployees(employeeData.totalEmployees)
+
   console.log(employeeData)
   
  }
   if (!isMounted) {
     return null;
   }
-const printMe = ()=>{
+
+const printMe = async({page,pageSize}:PaginationOptions)=>{
   console.log("fetching employee")
+  let pagenationOption = {page:page,pageSize:pageSize}
+  const employeeData = await getEmployeeWithPagination(pagenationOption)
+  setEmployeeList(employeeData.data)
+  setPage(employeeData.page)
+  // setPageSize(employeeData.pageSize)
+  setTotalPages(employeeData.totalPages)
+  setTotalEmployees(employeeData.totalEmployees)
+
+}
+const getFilteredEmp = async(searchCriteria: string ,
+  page: number ,
+  pageSize: number )=>{
+  console.log("filter emp---->",searchCriteria)
+  let pagenationOption = {page:page,pageSize:pageSize}
+  const employeeData = await getFilteredEmployee(searchCriteria,page,pageSize)
+  console.log(employeeData)
+  setEmployeeList(employeeData.data)
+  setPage(employeeData.page)
+  // setPageSize(employeeData.pageSize)
+  setTotalPages(employeeData.totalPages)
+  setTotalEmployees(employeeData.totalEmployees)
+
+}
+
+const updatePageSize= (pageSize:number)=>{
+  setPageSize(pageSize);
 }
   
 
@@ -80,11 +121,8 @@ const printMe = ()=>{
       </CardHeader>
 
       <CardContent>
-        {!data || data.length === 0 ? (
-          "No assigned employees found"
-        ) : (
-          <EmployeeDataTable fetchNext={printMe}  data={ data} page={page} pageSize={pageSize} totalPages={ totalPages} totalEmployees={totalEmployees} columns={columns} />
-        )}
+      <EmployeeDataTable fetchNext={printMe} getFilteredEmp={getFilteredEmp} updatePageSize ={updatePageSize}  data={ employeeList} page={page} pageSize={pageSize} totalPages={ totalPages}  columns={columns} totalEmployees={totalEmployees} />
+
       </CardContent>
     </Card>
   );

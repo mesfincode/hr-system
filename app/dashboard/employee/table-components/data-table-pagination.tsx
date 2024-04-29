@@ -14,6 +14,7 @@ import {
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select";
+import { PaginationOptions } from "@/interfaces/interfaces";
   
   interface DataTablePaginationProps<TData> {
     table: Table<TData>;
@@ -21,8 +22,10 @@ import {
     pageSize: number;
     totalPages: number;
     totalEmployees: number;
-    fetchNext: ()=> void;
+    updatePageSize: (pageSize:number)=>void;
 
+    fetchNext: ({page,pageSize}:PaginationOptions)=> void;
+  
   }
   
   export function DataTablePagination<TData>({
@@ -31,7 +34,8 @@ import {
     pageSize,
     totalPages,
     totalEmployees,
-    fetchNext
+    updatePageSize,
+    fetchNext,
 
   }: DataTablePaginationProps<TData>) {
     return (
@@ -44,16 +48,20 @@ import {
           <div className="flex items-center space-x-2">
             <p className="text-sm font-medium">Rows per page</p>
             <Select
-              value={`${table.getState().pagination.pageSize}`}
+              value={`${pageSize}`}
               onValueChange={(value) => {
-                table.setPageSize(Number(value));
+                updatePageSize(Number(value))
+                let pagenationOption = {page:1,pageSize:Number(value)}
+
+                fetchNext(pagenationOption);
+                // table.setPageSize(Number(value));
               }}
             >
               <SelectTrigger className="h-8 w-[70px]">
-                <SelectValue placeholder={table.getState().pagination.pageSize} />
+                <SelectValue placeholder={pageSize} />
               </SelectTrigger>
               <SelectContent side="top">
-                {[5,10, 20, 30, 40, 50].map((pageSize) => (
+                {[2,5,10, 20, 30, 40].map((pageSize) => (
                   <SelectItem key={pageSize} value={`${pageSize}`}>
                     {pageSize}
                   </SelectItem>
@@ -69,8 +77,14 @@ import {
             <Button
               variant="outline"
               className="hidden h-8 w-8 p-0 lg:flex"
-              onClick={() => table.setPageIndex(0)}
-              disabled={!table.getCanPreviousPage()}
+              onClick={() => {
+                // table.previousPage()
+                console.log("Previous page")
+                let pagenationOption = {page:1,pageSize:pageSize}
+
+                fetchNext(pagenationOption);
+              }}
+              disabled={page==1}
             >
               <span className="sr-only">Go to first page</span>
               <DoubleArrowLeftIcon className="h-4 w-4" />
@@ -81,8 +95,11 @@ import {
               onClick={() => {
                 // table.previousPage()
                 console.log("Previous page")
+                let pagenationOption = {page:page-1,pageSize:pageSize}
+
+                fetchNext(pagenationOption);
               }}
-              // disabled={!table.getCanPreviousPage()}
+              disabled={page==1}
             >
               <span className="sr-only">Go to previous page</span>
               <ChevronLeftIcon className="h-4 w-4" />
@@ -93,9 +110,11 @@ import {
               onClick={() =>{
                 //  table.nextPage()
                 // console.log("Next page")
-                fetchNext()
+                let pagenationOption = {page:page+1,pageSize:pageSize}
+
+                fetchNext(pagenationOption);
                 }}
-              // disabled={!table.getCanNextPage()}
+              disabled={page==totalPages}
             >
               <span className="sr-only">Go to next page</span>
               <ChevronRightIcon className="h-4 w-4" />
@@ -103,8 +122,12 @@ import {
             <Button
               variant="outline"
               className="hidden h-8 w-8 p-0 lg:flex"
-              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-              disabled={!table.getCanNextPage()}
+              onClick={() => {
+                let pagenationOption = {page:totalPages,pageSize:pageSize}
+
+                fetchNext(pagenationOption);
+              }}
+              disabled={page==totalPages}
             >
               <span className="sr-only">Go to last page</span>
               <DoubleArrowRightIcon className="h-4 w-4" />

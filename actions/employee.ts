@@ -133,6 +133,60 @@ export const getEmployeeWithPagination = async (paginationOptions: PaginationOpt
       error: 'Error fetching employee data' };
   } 
 };
+export const getFilteredEmployee = async (
+  searchString: string = '',
+  page: number = 1,
+  pageSize: number = 10
+): Promise<PaginationResponse> => {
+  try {
+    const totalEmployees = await db.employee.count({
+      where: {
+        OR: [
+          { firstName: { contains: searchString, mode: 'insensitive' } },
+          { lastName: { contains: searchString, mode: 'insensitive' } },
+          { email: { contains: searchString, mode: 'insensitive' } },
+
+          { phone: { contains: searchString, mode: 'insensitive' } },
+
+          // Add more fields as needed
+        ],
+      },
+    });
+    const totalPages = Math.ceil(totalEmployees / pageSize);
+
+    const employees = await db.employee.findMany({
+      where: {
+        OR: [
+          { firstName: { contains: searchString, mode: 'insensitive' } },
+          { lastName: { contains: searchString, mode: 'insensitive' } },
+          { email: { contains: searchString, mode: 'insensitive' } },
+          { phone: { contains: searchString, mode: 'insensitive' } },
+
+          // Add more fields as needed
+        ],
+      },
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+    });
+   
+    return {
+      data: employees,
+      page: page,
+      pageSize: pageSize,
+      totalPages: totalPages,
+      totalEmployees: totalEmployees,
+      error:"",
+    };
+  } catch (e) {
+    return { 
+      data: [],
+      page: 0,
+      pageSize: 0,
+      totalPages: 0,
+      totalEmployees: 0,
+      error: 'Error fetching employee data' };
+  }
+};
 
  export const getEmployeesWithId = async (employeeId: number) => {
   const data = await db.employee.findFirst({

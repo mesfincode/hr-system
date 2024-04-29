@@ -13,27 +13,32 @@ import { Button } from "@/components/ui/button";
 import Header from '@/components/auth/header'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Sex } from '@prisma/client'
-import { createEmployee } from '@/actions/employee'
+import { createEmployee, updateEmployee } from '@/actions/employee'
 import { FormError } from '@/components/form-error'
 import { FormSuccess } from '@/components/form-success'
-const CreateEmployee = () => {
+const UpdateEmployee = ({data}:any) => {
     const [error, setError] = useState<string | undefined>();
     const [success, setSuccess] = useState<string | undefined>();
     const [isPending, startTransition] = useTransition();
-  
-    const form = useForm<z.infer<typeof EmployeeFormValidator>>({
-        resolver: zodResolver(EmployeeFormValidator),
-        defaultValues: {
-          firstName: "",
-          lastName: "",
-          age: 0,
-          sex: "",
-          bankAccount: "",
-          education: "",
-          phone: "",
-          email: ""
-          //   code:""
-        }
+    const formSchema = z.object({
+        id: z.number(),
+        firstName: z.string().min(3).max(50),
+        lastName: z.string().min(3).max(50),
+        email: z.string().email(),
+        phone: z.string().optional(),
+        age: z.number().min(3).max(50),
+        sex: z.string().min(3).max(50),
+        education: z.string().min(3).max(50),
+        bankAccount: z.string().min(3).max(50),
+        // education: z.string().min(3).max(50),
+
+      });
+    
+      type NewEmployeeFormValues = z.infer<typeof formSchema>;
+    //TODO: fix this any
+    const form = useForm<any>({
+        resolver: zodResolver(formSchema),
+        defaultValues: data,
       })
     
       const onSubmit = (values: z.infer<typeof EmployeeFormValidator>) => {
@@ -41,7 +46,7 @@ const CreateEmployee = () => {
         setSuccess("");
         startTransition(() => {
           // registerUser(values);
-            createEmployee(values).then((data)=>{
+            updateEmployee(values).then((data)=>{
               console.log(data)
              if(data?.error){
               // form.reset();
@@ -67,7 +72,7 @@ const CreateEmployee = () => {
           {/* <div className='flex justify-center items-center'>
           <input className=''  type="file" name="file" />
           </div> */}
-
+   
            <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}
                   className='space-y-6'
@@ -97,6 +102,23 @@ const CreateEmployee = () => {
                     {/* { !showTwoFactor &&
                  ( <> */}
                   <div className='flex gap-3'>
+                  <FormField
+          control={form.control}
+          name="id"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  disabled={isPending}
+                  placeholder="Matt"
+                  type="hidden"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
                   <FormField
                       control={form.control}
                       name='firstName'
@@ -316,4 +338,4 @@ const CreateEmployee = () => {
   )
 }
 
-export default CreateEmployee
+export default UpdateEmployee

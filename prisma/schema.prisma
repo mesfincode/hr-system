@@ -64,6 +64,7 @@ model Employee {
   lastName    String
   age         Int
   sex         Sex
+  phone       String?
   bankAccount String?
   education   String?
   profileImage String?

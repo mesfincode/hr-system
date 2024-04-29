@@ -48,7 +48,16 @@ export const columns: ColumnDef<Employee>[] = [
     enableSorting: true,
     enableHiding: true,
   },
+  {
+    accessorKey: "phone",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Phone" />
+    ),
 
+    cell: ({ row }) => <div className="">{row.getValue("phone")}</div>,
+    enableSorting: true,
+    enableHiding: true,
+  },
  
   
   {

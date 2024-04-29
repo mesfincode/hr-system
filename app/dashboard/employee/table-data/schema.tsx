@@ -8,6 +8,7 @@ export const employeeSchema = z.object({
   firstName: z.string().nullable(),
   lastName: z.string(),
   email: z.string().nullable(),
+  phone: z.string().nullable(),
   sex: z.string().nullable(),
   age: z.number().nullable(),
   bankAccount: z.string().nullable(),

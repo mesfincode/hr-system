@@ -16,15 +16,18 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import Container from "../_components/Container"
-import { Suspense } from "react"
+import { Suspense, useEffect } from "react"
 import SuspenseLoading from "@/components/loadings/suspense"
 import EmployeesView from "./components/EmployeesView"
 import CreateEmployee from "./components/CreateEmployee"
-import { getAllEmployee } from "@/actions/employee"
+import { getAllEmployee, getEmployeeWithPagination } from "@/actions/employee"
 
 export default async function Employee() {
-  const employee = await  getAllEmployee();
-  console.log(employee)
+  // const employee = await  getAllEmployee();
+  let pagenationOption = {page:1,pageSize:5}
+  const employeeData = await getEmployeeWithPagination(pagenationOption)
+  
+  // console.log(employeeData)
   return (
     <Tabs defaultValue="view-employee" className="pt-4 m-4">
       <TabsList className="grid w-[400px] grid-cols-2 ">
@@ -40,7 +43,7 @@ export default async function Employee() {
             </CardDescription>
           </CardHeader> */}
         <Suspense fallback={<SuspenseLoading />}>
-        <EmployeesView employee={employee}  />
+        <EmployeesView employee={employeeData}  />
       </Suspense>
         </Card>
       </TabsContent>

@@ -36,6 +36,7 @@ export const EmployeeFormValidator = z.object({
     education: z.string().min(2,{
         message:"Education is required."
     }),
+    phone: z.string().optional(),
     // profileImage: z.string().min(2,{
     //     message:"Profile image is required."
     // }),

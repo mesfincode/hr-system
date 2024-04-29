@@ -99,11 +99,13 @@ export function DataTableRowActions<TData>({
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[160px]">
           <DropdownMenuItem
-            onClick={() => router.push(`/employees/${employee?.id}`)}
+            onClick={() => router.push(`/dashboard/employee/${employee?.id}`)}
           >
             View
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setUpdateOpen(true)}>
+          <DropdownMenuItem 
+            onClick={() => router.push(`/dashboard/employee/update/${employee?.id}`)}
+            >
             Update
           </DropdownMenuItem>
           <DropdownMenuSeparator />

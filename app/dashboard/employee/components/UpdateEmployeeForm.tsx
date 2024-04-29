@@ -114,9 +114,9 @@ export function UpdateEmployeeForm({ initialData, setOpen }: NewEmployeeFormProp
     (_, i) => i + 1923
   );
 
-  const filteredData = users.filter((item: any) =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // const filteredData = users.filter((item: any) =>
+  //   item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
 
   if (!users || !initialData)
     return <div>Something went wrong, there is no data for form</div>;

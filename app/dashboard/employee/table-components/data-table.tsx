@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import React, { useEffect } from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -28,16 +28,34 @@ import {
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
 import { PanelTopClose, PanelTopOpen } from "lucide-react";
+import { getEmployeeWithPagination } from "@/actions/employee";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  totalEmployees: number;
+  fetchNext: ()=> void;
 }
 
 export function EmployeeDataTable<TData, TValue>({
   columns,
   data,
+  page,
+    pageSize,
+    totalPages,
+    totalEmployees,
+    fetchNext
 }: DataTableProps<TData, TValue>) {
+  useEffect(()=>{
+
+  },[])
+  const getEmploye =async()=>{
+    let pagenationOption = {page:1,pageSize:5}
+    const employeeData = await getEmployeeWithPagination(pagenationOption)
+  }
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
@@ -154,7 +172,7 @@ export function EmployeeDataTable<TData, TValue>({
               </TableBody>
             </Table>
           </div>
-          <DataTablePagination table={table} />
+          <DataTablePagination table={table} fetchNext={fetchNext}  page={page} pageSize={pageSize} totalPages={ totalPages} totalEmployees={totalEmployees}/>
         </>
       )}
     </div>

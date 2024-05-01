@@ -38,7 +38,7 @@ const EmployeesView = ({employee}:any) => {
   const [isMounted, setIsMounted] = useState(false);
   const [employeeList, setEmployeeList] = useState<Employee[]>([]);  
   const [page,setPage] = useState(0);
-  const [pageSize,setPageSize] = useState(2);
+  const [pageSize,setPageSize] = useState(5);
   const [totalPages,setTotalPages] = useState(0);
   const [totalEmployees,setTotalEmployees] = useState(0)
 

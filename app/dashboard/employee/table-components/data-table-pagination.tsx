@@ -39,12 +39,12 @@ import { PaginationOptions } from "@/interfaces/interfaces";
 
   }: DataTablePaginationProps<TData>) {
     return (
-      <div className="flex items-center justify-between px-2">
-        <div className="flex-1 text-sm text-muted-foreground">
+      <div className="flex w-full px-2">
+        {/* <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
-        <div className="flex items-center space-x-6 lg:space-x-8">
+        </div> */}
+        <div className="flex items-center w-full justify-between space-x-6 lg:space-x-8">
           <div className="flex items-center space-x-2">
             <p className="text-sm font-medium">Rows per page</p>
             <Select
@@ -61,7 +61,7 @@ import { PaginationOptions } from "@/interfaces/interfaces";
                 <SelectValue placeholder={pageSize} />
               </SelectTrigger>
               <SelectContent side="top">
-                {[2,5,10, 20, 30, 40].map((pageSize) => (
+                {[5,10, 20, 30, 40].map((pageSize) => (
                   <SelectItem key={pageSize} value={`${pageSize}`}>
                     {pageSize}
                   </SelectItem>

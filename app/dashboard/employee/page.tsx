@@ -29,7 +29,7 @@ export default async function Employee() {
   
   // console.log(employeeData)
   return (
-    <Tabs defaultValue="view-employee" className="pt-4 m-4">
+    <Tabs defaultValue="view-employee" className="pt-4 ">
       <TabsList className="grid w-[400px] grid-cols-2 ">
         <TabsTrigger value="view-employee">Employee</TabsTrigger>
         <TabsTrigger value="create-employee">Create Employee</TabsTrigger>

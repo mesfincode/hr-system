@@ -23,7 +23,7 @@ Staffs(From top to bottom)
 
   Employee
    - First Name 
-   -Second Name
+   - Second Name
    - Last Name
    - Sex
    - Age

@@ -10,10 +10,17 @@ import { useState, useTransition } from "react"
 import { RegsiterValidator } from "@/validators/validator"
 import { FormError } from "../form-error"
 import { FormSuccess } from "../form-success"
+import router from "next/router"
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+
 // import { register } from "@/actions/login"
 // import { FormError } from "../form-error"
 // import { FormSuccess } from "../form-success"
-export function RegistrationForm() {
+export function RegistrationForm()  {
+    const router = useRouter();
+    const [showTwoFactor , setShowTwoFactor] = useState(false);
     const [error, setError] = useState<string | undefined>();
     const [success, setSuccess] = useState<string | undefined>();
     const [isPending, startTransition] = useTransition();
@@ -47,10 +54,20 @@ export function RegistrationForm() {
           console.log(response);
       
           if (response.ok) {
+            // const data = await response.json();
+            // console.log(data);
+            // localStorage.setItem("data",JSON.stringify(data));
+            // // data.header 
+            // setSuccess(data.success)
+            // router.push("/dashboard");
             // Handle success
-            const data = await response.json();
-            console.log(data);
-            setSuccess(data.success)
+        const data = await response.json();
+        console.log(data , "reg");
+
+        localStorage.setItem("data",JSON.stringify(data));
+        // data.header 
+        setSuccess(data.success)
+        router.push("/dashboard");
           } else {
             // Handle error
             const errorData = await response.json();
@@ -60,7 +77,7 @@ export function RegistrationForm() {
           }
         } catch (error) {
           // Handle network or other errors
-          setError("Something went wrong")
+          setError("Something gone wrong")
           console.error(error);
         }
       };
@@ -138,13 +155,22 @@ export function RegistrationForm() {
                     </div>
                     <FormError message={error} />
                     <FormSuccess message={success} />
-                    <Button type='submit' className='w-full'
-                    >
-                        Login
-                    </Button>
+                    {/* <Link href='/auth/login'>
+                    
+                    </Link> */}
+                    <Button type='submit' className='w-full'                       disabled={isPending}
+>
+               {
+                showTwoFactor ?"Confirm":"Signup"
+               }
+           </Button>
+                    
+                   
                 </form>
             </Form>
 
     </CardWrapper>
     )
   }
+
+  

@@ -81,14 +81,7 @@ export const getAllEmployee = async ()=>{
      return {error:"Error Creating employee"}
     }
  }
- interface PaginationResponse {
-  data: Employee[];
-  page: number;
-  pageSize: number;
-  totalPages: number;
-  totalEmployees: number;
-  error:String;
-}
+
 
 interface ErrorRespones {
   error: string;
@@ -101,6 +94,14 @@ type GetEmployeeWithPaginationResponse = PaginationResponse | ErrorRespones;
   pageSize: number;
 }
 
+interface PaginationResponse {
+  data: Employee[];
+  page: number;
+  pageSize: number;
+  totalPages: number;
+  totalEmployees: number;
+  error:String;
+}
 export const getEmployeeWithPagination = async (paginationOptions: PaginationOptions): Promise<PaginationResponse> => {
   try {
     const { page, pageSize } = paginationOptions;

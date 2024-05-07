@@ -43,4 +43,12 @@ export const EmployeeFormValidator = z.object({
     email: z.string().email().optional().or(z.literal('')),
 })
 
+
+export const ClientValidator = z.object({
+    clientName: z.string().min(2,{
+        message:"clientName is required"
+    }),
+    otSallary: z.number().optional(),  
+    sallary: z.number().optional(),
+})
     

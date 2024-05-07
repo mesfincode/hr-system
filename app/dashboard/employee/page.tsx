@@ -24,9 +24,9 @@ import { getAllEmployee, getEmployeeWithPagination } from "@/actions/employee"
 
 export default async function Employee() {
   // const employee = await  getAllEmployee();
-  let pagenationOption = {page:1,pageSize:5}
+  let pagenationOption = { page: 1, pageSize: 5 }
   const employeeData = await getEmployeeWithPagination(pagenationOption)
-  
+
   // console.log(employeeData)
   return (
     <Tabs defaultValue="view-employee" className="pt-4 ">
@@ -42,9 +42,9 @@ export default async function Employee() {
               Make changes to your account here. Click save when you're done.
             </CardDescription>
           </CardHeader> */}
-        <Suspense fallback={<SuspenseLoading />}>
-        <EmployeesView employee={employeeData}  />
-      </Suspense>
+          <Suspense fallback={<SuspenseLoading />}>
+            <EmployeesView employee={employeeData} />
+          </Suspense>
         </Card>
       </TabsContent>
       <TabsContent value="create-employee">
@@ -55,7 +55,7 @@ export default async function Employee() {
              Use the form below to create Employee
             </CardDescription>
           </CardHeader> */}
-          <CreateEmployee/>
+          <CreateEmployee />
         </Card>
       </TabsContent>
     </Tabs>

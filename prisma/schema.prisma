@@ -60,7 +60,7 @@ model User {
 
 model Client {
   id        Int      @id @default(autoincrement())
-  name      String
+  clientName      String
   otSallary Float
   sallary   Float
   createdAt DateTime @default(now())
